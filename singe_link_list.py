@@ -210,6 +210,34 @@ class Linked_List:
             cur.next = node
             cur = cur.next
 
+    def swap(self, num1, num2):
+        node1 = Node(num1)
+        node2 = Node(num2)
+        cur = self.head 
+        pre = None
+        while cur is not None:
+            if cur.data == num1:
+                node2.next = cur.next
+                pre.next = node2
+                pre = cur
+                cur = cur.next
+                # print(num1)
+                # self.travel()
+                continue
+            if cur.data == num2:
+                node1.next = cur.next
+                pre.next = node1
+                pre = cur
+                cur = cur.next
+                # print(num2)
+                # self.travel()
+                # print(node1.data)
+                # print(node2.data)
+                continue
+            # print(0)
+            pre = cur
+            cur = cur.next
+            # self.travel()
 
 
 if __name__ == '__main__':
@@ -242,6 +270,9 @@ if __name__ == '__main__':
     ll.reverse()
     ll.travel()
 
-    l = [99, 99, 99]
-    ll.init_list(l)
+    ll.swap(2,3)
     ll.travel()
+
+    # l = [99, 99, 99]
+    # ll.init_list(l)
+    # ll.travel()
