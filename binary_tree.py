@@ -21,6 +21,7 @@ class Tree(object):
 			添加函数
 		"""
 		node = Node(item)
+		# print(node)
 		if self.root is None:
 			self.root = node
 		else:
@@ -29,12 +30,14 @@ class Tree(object):
 				pop_node = q.pop(0)
 				if pop_node.left is None:
 					pop_node.left = node
+					return
 				elif pop_node.right is None:
 					pop_node.right = node
 					return 
 				else:
 					q.append(pop_node.left)
 					q.append(pop_node.right)
+
 
 	def get_parent(self, item):
 		"""
@@ -52,7 +55,7 @@ class Tree(object):
 			if pop_node.left is not None:
 				tmp.append(pop_node.left)
 			if pop_node.right is not None:
-				tmp.append(pop_node)
+				tmp.append(pop_node.right)
 		return None
 
 	def delete(self, item):
@@ -99,3 +102,49 @@ class Tree(object):
 		else:
 			return False
 
+	def inorder(self, node):
+		"""
+			中序遍历（左根右）
+		"""
+		if node is None:
+			return []
+		result = [node.item]
+		left_item = self.inorder(node.left)
+		right_item = self.inorder(node.right)
+		return left_item + result + right_item
+
+	def postorder(self, node):
+		"""
+			后序遍历（左右根）
+		"""
+		if node is None:
+			return []
+		result = [node.item]
+		left_item = self.postorder(node.left)
+		right_item = self.postorder(node.right)
+		return left_item + right_item + result
+
+	def preorder(self, node):
+		"""
+			先序遍历（根左右）
+		"""
+		if node is None:
+			return []
+		result = [node.item]
+		left_item = self.preorder(node.left)
+		right_item = self.preorder(node.right)
+		return result + left_item + right_item
+
+
+if __name__ == '__main__':
+	items = [1,2,3,4,5,6,7,8,9,10]
+
+	t = Tree()
+	for item in items:
+		t.add(item)
+
+	print(t.get_parent(5))
+
+	print(t.inorder(t.root))
+	print(t.preorder(t.root))
+	print(t.postorder(t.root))
