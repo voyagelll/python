@@ -38,3 +38,8 @@ class TrieNode:
         return curr.is_leaf
 
 
+if __name__ == '__main__':
+    t = TrieNode()
+    print(t.is_leaf)
+
+    t.insert(1)

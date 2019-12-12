@@ -1,7 +1,13 @@
+"""
+	杨辉三角形
+"""
 def triangles():
     pass
 
 
+"""
+	斐波拉契亚数列
+"""
 def fib(max):
     a, b = 0, 1
     while max:
