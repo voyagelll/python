@@ -26,6 +26,9 @@ class hashTable(object):
 
 
 class hashTable2(object):
+	"""
+		开放地址法
+	"""
 	def __init__(self):
 		self.hash_table = [[None,None] for i in range(10)]
 
