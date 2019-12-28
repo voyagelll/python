@@ -1,3 +1,4 @@
+
 """
 	冒泡排序
 	* 算法原理
@@ -211,4 +212,94 @@ def heap_sort(sequence):
 	return sequence 
 
 
-print(heap_sort(l))
+# print(heap_sort(l))
+
+
+
+"""
+	计数排序
+	* 算法原理
+		1、找出待排序数组中最大和最小的元素
+		2、统计数组中每个值为i的元素出现的次数，存入数组C的第i项
+		3、对所有的计数累加（从C中的第一个元素开始，每一项和前一项想加）
+		4、反向填充目标数组：将每个元素i放在新数组的第C(i)项，每放一个元素就将C(i)减去1
+	* 复杂度分析
+		最坏时间复杂度：O(n+k)
+		最好时间复杂度：O(n+k)
+		平均时间复杂度：O(n+k)
+"""
+def countingSort(arr, maxValue):
+	bucketLen = maxValue + 1
+	bucket = [0] * bucketLen
+	sortedIndex = 0
+	arrLen = len(arr)
+	for i in range(arrLen):
+		if not bucket[arr[i]]:
+			bucket[arr[i]] = 0
+		bucket[arr[i]] += 1
+	for j in range(bucketLen):
+		while bucket[j]>0:
+			arr[sortedIndex] = j
+			sortedIndex += 1
+			bucket[j] -= 1
+	return arr
+
+# print(countingSort(l, max(l)))
+
+
+
+"""
+	桶排序
+	* 算法原理
+		桶排序是计数排序的升级版。它利用了函数的映射关系，高效与否的关键在于映射函数的确定
+	* 复杂度分析
+		最坏时间复杂度：O(n+k)
+		最好时间复杂度：O(n)
+		平均时间复杂度：O(n)
+"""
+def insertion_sort(sequence):
+	for index in range(1, len(sequence)):
+		while (index>0 and sequence[index-1] > sequence[index]):
+			sequence[index], sequence[index-1] = sequence[index-1], sequence[index]
+			index = index - 1
+	return sequence
+
+
+DEFAULT_BUCKET_SIZE = 5
+
+def bucket_sort(sequence, bucketSize=DEFAULT_BUCKET_SIZE):
+	print(sequence)
+	if (len(sequence)==0):
+		return []
+	maxValue = sequence[0]
+	minValue = sequence[0]
+	for i in range(0, len(sequence)):
+		if sequence[i] < minValue:
+			minValue = sequence[i]
+		elif sequence[i] > maxValue:
+			maxValue = sequence[i]
+	bucketCount = math.floor((maxValue-minValue) / bucketSize) + 1
+	buckets = []
+	for i in range(0, bucketCount):
+		buckets.append([])
+	for i in range(0, len(sequence)):
+		buckets[math.floor((sequence[i] - minValue) / bucketSize)].append(sequence[i])
+	sortedArray = []
+	print(buckets)
+	for i in range(0, len(buckets)):
+		insertion_sort(buckets[i])
+		for j in range(0, len(buckets[i])):
+			sortedArray.append(buckets[i][j])
+	return sortedArray
+
+print(bucket_sort(l))
+
+
+
+
+
+
+
+
+
+

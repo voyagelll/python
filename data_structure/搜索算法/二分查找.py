@@ -88,9 +88,9 @@ def jumpsearch(seq, tar):
         return None
 
 
-seq = [1,2,3,4,5]
-for i in [0,1,2,3,4,5,6]:
-    print(jumpsearch(seq, i))
+# seq = [1,2,3,4,5]
+# for i in [0,1,2,3,4,5,6]:
+#     print(jumpsearch(seq, i))
 
 
 
@@ -107,6 +107,65 @@ for i in [0,1,2,3,4,5,6]:
 """
 import random
 
+
 def partition(sequence, left, right, pivot_index):
     pivot_value = sequence[pivot_index]
+    sequence[pivot_index], sequence[right] = sequence[right], sequence[pivot_index]
+    store_index = left
+    for i in range(left, right):
+        if sequence[i] < pivot_value:
+            sequence[store_index], sequence[i] = sequence[i], sequence[store_index]
+            store_index = store_index + 1
+    sequence[store_index], sequence[right] = sequence[right], sequence[store_index]
+    return store_index
+
+
+
+"""
+    哈希搜索
+    * 适用性
+        一个简单无需数组可实现索引关系
+    * 基本思想
+        如果所有的键都是整数，就可以使用一个简单的无序数组来实现。
+        将键作为索引，值为其对应的值
+    * 复杂度
+        最坏时间复杂度：O(1)
+        最好时间复杂度：O(1)
+        平均时间复杂度：O(1)
+"""
+
+class HashTable:
+    def __init__(self, size):
+        self.elem = [None for i in range(size)]
+        self.count = size
+
+    def hash(self, key):
+        return key % self.count
+
+    def insert_hash(self, key):
+        address = self.hash(key)
+        while self.elem[address]:
+            address = (address+1) % self.count
+        self.elem[address] = key
+
+    def search_hash(self, key):
+        star = address = self.hash(key)
+        while self.elem[address] != key:
+            address = (address + 1) % self.count
+            if not self.elem[address] or address == star:
+                return False
+        return True, address
+
+
+list_a = [12, 67, 56, 16, 25, 37, 22, 29, 15, 47, 48, 34]
+hash_table = HashTable(12)
+for i in list_a:
+    hash_table.insert_hash(i)
+for i in hash_table.elem:
+    if i:
+        print((i, hash_table.elem.index(i)), end=" ")
+print("\n")
+print(hash_table.search_hash(15))
+print(hash_table.search_hash(33))
+
 
