@@ -1,3 +1,126 @@
+"""
+	简版 svm(smo)实现
+"""
+from numpy import *
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+
+# 读取数据
+def loadDataSet(filename):
+    dataMat = []
+    labelMat = []
+    fr = open(filename)
+    for line in fr.readlines():
+        lineArr = line.strip().split('\t')
+        dataMat.append([float(lineArr[0]), float(lineArr[1])])
+        labelMat.append(float(lineArr[2]))
+    return dataMat, labelMat
+
+
+# 在0-m中随机选择一个不是i的整数
+def selectJrand(i, m):
+    j = i
+    while (j==i):
+        j = int(random.uniform(0, m))
+    return j
+
+
+# 保证a在L和H范围内（L <= a <= H)
+def clipAlpha(aj, H, L):
+    if aj>H:
+        aj = H
+    if L>aj:
+        aj=L
+    return aj
+
+
+# 简化版SMO算法
+def smoSimple(dataMatIn, classLabels, C, toler, maxIter):
+    dataMatrix = mat(dataMatIn); labelMat = mat(classLabels).transpose()
+    b = 0
+    m, n = shape(dataMatrix)
+    alphas = mat(zeros((m, 1)))
+    iter = 0
+    while (iter < maxIter):
+        alphaPairsChanged = 0
+        for i in range(m):
+            fXi = float(multiply(alphas, labelMat).T * (dataMatrix*dataMatrix[i, :].T)) + b
+            Ei = fXi - float(labelMat[i])
+            if ((labelMat[i]*Ei < -toler) and (alphas[i] < C)) or ((labelMat[i]*Ei > toler) and (alphas[i] > 0)):
+                j = selectJrand(i, m)
+                fXj = float(multiply(alphas, labelMat).T * (dataMatrix*dataMatrix[j, :].T)) + b
+                Ej = fXj - float(labelMat[j])
+                alphaIold = alphas[i].copy()
+                alphaJold = alphas[j].copy()
+                # 保证alpha 在 0-C之间
+                if (labelMat[i] != labelMat[j]):
+                    L = max(0, alphas[j] - alphas[i])
+                    H = min(C, C + alphas[j] - alphas[i])
+                else:
+                    L = max(0, alphas[j] + alphas[i] - C)
+                    H = min(C, alphas[j] + alphas[i])
+                if L == H:
+                    print("L == H")
+                    continue
+                eta = 2.0 * dataMatrix[i,:] * dataMatrix[j,:].T - dataMatrix[i,:]*dataMatrix[i,:].T - dataMatrix[j,:]*dataMatrix[j,:].T
+                if eta >= 0:
+                    print("eta >= 0")
+                    continue
+                # 对i进行修改，对j进行修改但方向相反
+                alphas[j] -= labelMat[j] * (Ei - Ej) / eta
+                alphas[j] = clipAlpha(alphas[j], H, L)
+                if (abs(alphas[j] - alphaJold) < 0.00001):
+                    print("J is not moving enough")
+                    continue
+                alphas[i] += labelMat[j] * labelMat[i] * (alphaJold - alphas[j])
+                b1 = b - Ei - labelMat[i] * (alphas[i]-alphaIold) * dataMatrix[i,:] * dataMatrix[i,:].T -\
+                    labelMat[j]*(alphas[j]-alphaJold) * dataMatrix[i,:] * dataMatrix[j, :].T
+                b2 = b - Ej - labelMat[i]*(alphas[i]-alphaIold)*dataMatrix[i,:]*dataMatrix[j,:].T -\
+                    labelMat[j] * (alphas[j]-alphaJold) * dataMatrix[j,:] * dataMatrix[j,:].T
+                if (0 < alphas[i]) and (C > alphas[i]):
+                    b = b1
+                elif (0 < alphas[j]) and (C > alphas[j]):
+                    b = b2
+                else:
+                    b = (b1+b2) / 2
+                alphaPairsChanged += 1
+                print("iter: %d,   i:%d,  pairs changed %d" % (iter, i , alphaPairsChanged))
+        if (alphaPairsChanged == 0):
+            iter += 1
+        else:
+            iter = 0
+        print("iteration number : %d" % iter)
+    return b, alphas
+
+
+# if __name__ == "__main__":
+
+#     dataArr, labelArr = loadDataSet('testSet.txt')
+#     print(mat(dataArr)[:, 0].flatten().A[0])
+
+#     b, alphas = smoSimple(dataArr, labelArr, 0.6, 0.001, 40)
+#     print(b)
+#     # print(alphas[alphas>0])
+#     x = []; y= []
+#     for i in range(100):
+#         if alphas[i]>0:
+#             print(dataArr[i], labelArr[i])
+#             x.append(dataArr[i][0])
+#             y.append(dataArr[i][1])
+
+#     sns.scatterplot(mat(dataArr)[:, 0].flatten().A[0], mat(dataArr)[:, 1].flatten().A[0])
+#     sns.scatterplot(x, y, markers='+')
+#     plt.show()
+
+
+
+
+
+
+"""
+	完整版
+"""
 from numpy import * 
 import seaborn as sns 
 import matplotlib.pyplot as plt
@@ -38,7 +161,7 @@ def kernelTrans(X, A, kTup):
 	K = mat(zeros((m, 1)))
 	if kTup[0] == 'lin':
 		K = X * A.T
-	elif KTup[0] == 'rbf':
+	elif kTup[0] == 'rbf':
 		for j in range(m):
 			deltaRow = X[j, :] - A
 			K[j] = deltaRow * deltaRow.T
@@ -164,9 +287,9 @@ def smop(dataMatIn, classLabels, C, toler, maxIter, kTup=('lin', 0)):
 	return oS.b, oS.alphas 
 
 
-def testRbf(data_train, data_test):
+def testRbf(data_train, data_test, k=1.3):
 	dataArr, labelArr = loadDataSet(data_train)
-	b, alphas = smoP(dataArr, labelArr, 200, 0.0001, 10000, ('rbf', 1.3))
+	b, alphas = smop(dataArr, labelArr, 200, 0.0001, 100, ('rbf', k))
 	dataMat = mat(dataArr)
 	labelMat = mat(labelArr).transpose()
 	svInd = nonzero(alphas)[0]
@@ -176,28 +299,38 @@ def testRbf(data_train, data_test):
 	m, n = shape(dataMat)
 	errorCount = 0 
 	for i in range(m):
-		kernelEval = kernelTrans(sVs, dataMat[i, :], ('rbf', 1.3))
+		kernelEval = kernelTrans(sVs, dataMat[i, :], ('rbf', k))
 		predict = kernelEval.T * multiply(labelSV, alphas[svInd]) + b 
 		if sign(predict) != sign(labelArr[i]):
 			errorCount += 1
 	print("the training error rate is :%f" % (float(errorCount)/m))
 	dataArr_test, labelArr_test = loadDataSet(data_test)
 	errorCount_test = 0 
-	datMat_test = mat(dataArr_test)
+	dataMat_test = mat(dataArr_test)
 	labelMat = mat(labelArr_test).transpose()
 	m, n = shape(dataMat_test)
 	for i in range(m):
-		kernelEval = kernelTrans(sVs, dataMat_test[i,:], ('rbf', 1.3))
+		kernelEval = kernelTrans(sVs, dataMat_test[i,:], ('rbf', k))
 		predict = kernelEval.T * multiply(labelSV, alphas[svInd]) + b 
 		if sign(predict) != sign(labelArr_test[i]):
 			errorCount_test += 1 
 	print("the test error rate is: %f" % (float(errorCount_test) / m))
 
 
+
+def calcWs(alphas, dataArr, classLabels):
+	X = mat(dataArr); labelMat = mat(classLabels).transpose()
+	m, n = shape(X)
+	w = zeros((n,1))
+	for i in range(m):
+		w += multiply(alphas[i] * labelMat[i], X[i,:].T)
+	return w 
+
+
 def main():
-	filename = 'testSet.txt'
+	filename = 'testSetRBF.txt'
 	dataMat, labelMat = loadDataSet(filename)
-	b, alphas = smop(dataMat, labelMat, 200, 0.0001, 1000)
+	b, alphas = smop(dataMat, labelMat, 200, 0.0001, 110, ('rbf', 1.3))
 	# print(b)
 	# print(alphas)
 	x = []; y = []
@@ -216,3 +349,4 @@ def main():
 
 if __name__ == '__main__':
 	main()
+	# testRbf('testSetRBF.txt', 'testSetRBF2.txt')
