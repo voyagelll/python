@@ -8,8 +8,8 @@ def string_match(s, p):
     for i in range(len(p)):
         print(s[i], p[i], s[i] != p[i], p)
         if s[i] != p[i]:
-            return False
-    return True
+            return p[:i]
+    return p
 
 
 def kmp(s, p):
@@ -24,7 +24,7 @@ def kmp(s, p):
     return False
 
 
-# print(kmp('123456456', '123456'))
+# print(kmp('123456456', '4'))
 
 
 
@@ -49,7 +49,7 @@ def levenshtein_distance(first_word, second_word):
     return previous_row[-1]
 
 
-# levenshtein_distance('test', 'test')
+levenshtein_distance('test', 't')
 
 
 
