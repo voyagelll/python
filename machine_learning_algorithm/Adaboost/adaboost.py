@@ -70,7 +70,7 @@ def buildStump(dataArr, classLabels, D):
                 errArr[predictedVals == labelMat] = 0
                 weightedError = D.T * errArr
                 # print(i, threshVal, inequal, weightedError)
-                # print('split: dim:%d, thresh:%.2f, inequal:%s, the weight error is:%.3f' % (i, threshVal, inequal, weightedError))
+                print('split: dim:%d, thresh:%.2f, inequal:%s, the weight error is:%.3f' % (i, threshVal, inequal, weightedError))
                 if weightedError < minError:
                     minError = weightedError
                     bestClasEst = predictedVals.copy()
@@ -125,10 +125,56 @@ def adaBoostTrainDS(dataArr, classLabels, numIt=40):
         print("total error:", errorRate)
         if errorRate == 0:
             break
-    return weakClassArr, aggClassEst
+    return weakClassArr#, aggClassEst
+
+
+# if __name__ == '__main__':
+#     dataMat, classLabels = loadSimpleData()
+#     adaBoostTrainDS(dataMat, classLabels, 9)
+
+
+
+# adaboost 分类函数
+def adaClassify(datToClass, classifierArr):
+    dataMatrix = mat(datToClass)
+    m = shape(dataMatrix)[0]
+    aggClassEst = mat(zeros((m,1)))
+    for i in range(len(classifierArr)):
+        classEst = stumpClassify(dataMatrix, classifierArr[i]['dim'], classifierArr[i]['thresh'], classifierArr[i]['ineq'])
+        aggClassEst += classifierArr[i]['alpha'] * classEst
+        print(aggClassEst)
+    return sign(aggClassEst)
+
+
+# if __name__ == '__main__':
+#     dataMat, classLabels = loadSimpleData()
+#     classifierArr = adaBoostTrainDS(dataMat, classLabels, 30)
+#     res = adaClassify([0,0], classifierArr)
+#     print(res)
+
+
+
+"""
+    示例
+"""
+def loadDataSet(fileName):
+    numFeat = len(open(fileName).readline().split('\t'))
+    dataMat = []; labelMat = []
+    fr = open(fileName)
+    for line in fr.readlines():
+        lineArr = []
+        curLine = line.strip().split('\t')
+        for i in range(numFeat-1):
+            lineArr.append(float(curLine[i]))
+        dataMat.append(lineArr)
+        labelMat.append(float(curLine[-1]))
+    return dataMat, labelMat
 
 
 if __name__ == '__main__':
-    dataMat, classLabels = loadSimpleData()
-    adaBoostTrainDS(dataMat, classLabels, 9)
+    dataMat, classLabels = loadDataSet('horseColicTraining2.txt')
+    adaBoostTrainDS(dataMat, classLabels, 10)
+
+
+
 
