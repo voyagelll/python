@@ -87,14 +87,13 @@ def shell_sort(sequence):
 		gap = gap // 2 
 		for i in range(gap, len(sequence)):
 			for j in range(i%gap, i, gap):
-				# print(i%gap, i, gap)
+				# print(i%gap, i, gap, list(range(i%gap, i, gap)))
 				if sequence[i] < sequence[j]:
 					sequence[i], sequence[j] = sequence[j], sequence[i]
 	return sequence 
 
 
-# print(shell_sort(l))
-
+print(shell_sort(l))
 
 
 """
@@ -215,7 +214,6 @@ def heap_sort(sequence):
 # print(heap_sort(l))
 
 
-
 """
 	计数排序
 	* 算法原理
@@ -266,6 +264,7 @@ def insertion_sort(sequence):
 
 
 DEFAULT_BUCKET_SIZE = 5
+
 
 def bucket_sort(sequence, bucketSize=DEFAULT_BUCKET_SIZE):
 	print(sequence)
