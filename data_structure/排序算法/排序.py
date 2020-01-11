@@ -87,9 +87,10 @@ def shell_sort(sequence):
 		gap = gap // 2 
 		for i in range(gap, len(sequence)):
 			for j in range(i%gap, i, gap):
+				# print(i%gap, i, gap)
 				if sequence[i] < sequence[j]:
 					sequence[i], sequence[j] = sequence[j], sequence[i]
-		return sequence 
+	return sequence 
 
 
 # print(shell_sort(l))
@@ -149,7 +150,6 @@ def merge(left, right):
 """
 def quick_sort(l):
 	def recursive(first, last):
-		# first = 0; last = len(l)-1 
 		if first >= last:
 			return l 
 		low = first
@@ -169,7 +169,7 @@ def quick_sort(l):
 	recursive(0, len(l)-1)
 	return l
 
-# print(quick_sort(l))
+print(quick_sort(l))
 # print(l)
 
 
@@ -292,7 +292,7 @@ def bucket_sort(sequence, bucketSize=DEFAULT_BUCKET_SIZE):
 			sortedArray.append(buckets[i][j])
 	return sortedArray
 
-print(bucket_sort(l))
+# print(bucket_sort(l))
 
 
 

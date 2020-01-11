@@ -348,5 +348,5 @@ def main():
 
 
 if __name__ == '__main__':
-	main()
+	main()j
 	# testRbf('testSetRBF.txt', 'testSetRBF2.txt')
