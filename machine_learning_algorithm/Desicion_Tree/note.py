@@ -99,6 +99,34 @@ def createTree(dataSet, labels):
 
 
 
-print(createTree(dataMat, labelMat))
+# print(createTree(dataMat, labelMat))
+
+
+
+# 使用pickle模块存储决策树
+def storeTree(inputTree, filename):
+    import pickle 
+    fw = open(filename, 'wb')
+    # print(inputTree, type(inputTree))
+    pickle.dump(inputTree, fw)
+    fw.close()
+
+def grabTree(filename):
+    import pickle
+    fr = open(filename, 'rb')
+    return pickle.load(fr)
+
+# storeTree(createTree(dataMat, labelMat), 'pickle_res.txt')
+# print(grabTree('pickle_res.txt'))
+
+
+
+"""
+    示例：预测隐形眼镜类型
+"""
+fr = open('lenses.txt')
+lenses = [inst.strip().split('\t') for inst in fr.readlines()]
+lensesLabels = ['age', 'prescript', 'astigmatic', 'tearRate']
+print(createTree(lenses, lensesLabels))
 
 
