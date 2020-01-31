@@ -32,7 +32,7 @@ def randCent(dataSet, k):
 	return centroids
 
 
-dataMat = loadDataSet('testSet.txt')
+dataMat = loadDataSet('testSet2.txt')
 centroids = randCent(dataMat, 2)
 # print(centroids)
 # print(distEclud(dataMat[0], dataMat[1]))
@@ -64,14 +64,14 @@ def kMeans(dataSet, k, distMeas=distEclud, createCent=randCent):
 	return centroids, clusterAssment 
 
 
-print(dataMat[:,1].flatten().A[0])
-centroids, clusterAssment = kMeans(dataMat, 4)
-print(centroids)
-fig = plt.figure()
-ax = fig.add_subplot(111)
-ax.scatter(dataMat[:,0].flatten().A[0], dataMat[:,1].flatten().A[0])
-ax.scatter(centroids[:,0].flatten().A[0], centroids[:,1].flatten().A[0])
-plt.show()
+# print(dataMat[:,1].flatten().A[0])
+# centroids, clusterAssment = kMeans(dataMat, 3)
+# print(centroids)
+# fig = plt.figure()
+# ax = fig.add_subplot(111)
+# ax.scatter(dataMat[:,0].flatten().A[0], dataMat[:,1].flatten().A[0])
+# ax.scatter(centroids[:,0].flatten().A[0], centroids[:,1].flatten().A[0])
+# plt.show()
 
 
 
@@ -82,4 +82,47 @@ plt.show()
 		之后选择其中一个簇继续划分，选择哪个簇进行划分取决于对其划分是否可以最大程度降低SSE
 		上述基于SSE的过程不断重复，直到得到用户指定的簇数目为止
 """
-  
+def biKmeans(dataSet, k, distMeas=distEclud):
+	m = shape(dataSet)[0]
+	clusterAssment = mat(zeros((m,2)))
+	centroid0 = mean(dataSet, axis=0).tolist()[0]
+	centList = [centroid0]
+	for j in range(m):
+		clusterAssment[j, 1] = distMeas(mat(centroid0), dataSet[j,:])**2
+	while (len(centList) < k):
+		lowestSSE = inf 
+		for i in range(len(centList)):
+			ptsInCurrCluster = dataSet[nonzero(clusterAssment[:,0].A == i)[0], :]
+			centroidMat, splitClustAss = kMeans(ptsInCurrCluster, 2, distMeas)
+			sseSplit = sum(splitClustAss[:, 1])
+			sseNotSplit = sum(clusterAssment[nonzero(clusterAssment[:, 0].A != i)[0], 1])
+			print('sseSplit, and not split: ', sseSplit, sseNotSplit)
+			if (sseSplit + sseNotSplit) < lowestSSE:
+				bestCentToSplit = i 
+				bestNewCents = centroidMat 
+				bestClustAss = splitClustAss.copy()
+				lowestSSE = sseSplit + sseNotSplit 
+		bestClustAss[nonzero(bestClustAss[:, 0].A == 1)[0], 0] = len(centList)
+		bestClustAss[nonzero(bestClustAss[:, 0].A == 0)[0], 0] = bestCentToSplit 
+		print('The bestCentToSplit is :', bestCentToSplit)
+		print('The len of bestClustAss is :', len(bestClustAss))
+		centList[bestCentToSplit] = bestNewCents[0, :]
+		centList.append(bestNewCents[1, :])
+		clusterAssment[nonzero(clusterAssment[:, 0].A == bestCentToSplit)[0], :] = bestClustAss
+	return centList, clusterAssment 
+
+
+
+# dataMat = loadDataSet('testSet2.txt')
+centList, myNewAssment = biKmeans(dataMat, 3)
+print(centList)
+# print(centList[:,0])
+cents = array([c.flatten().A[0] for c in centList])
+# print(array(centList)[:, 0][:, 0])
+print(cents)
+# 画图
+fig = plt.figure()
+ax = fig.add_subplot(111)
+ax.scatter(dataMat[:,0].flatten().A[0], dataMat[:,1].flatten().A[0])
+ax.scatter(cents[:,0], cents[:,1], marker='x', c='red', s=500)
+plt.show()
