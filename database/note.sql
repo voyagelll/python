@@ -1,164 +1,439 @@
-/* WindowsæœåŠ¡ */
--- å¯åŠ¨ MySQL
+/* Windows·þÎñ */
+-- Æô¶¯ MySQL
 	net start mysql 
--- åˆ›å»º Windows æœåŠ¡
+-- ´´½¨ Windows ·þÎñ
 	sc create mysql binPath= mysqld_bin_path()
 
 
-/* è¿žæŽ¥æœåŠ¡å™¨ */
-mysql -h åœ°å€ -p ç«¯å£ -u ç”¨æˆ·å -p å¯†ç 
-
-SHOW PROCESSLIST -- æ˜¾ç¤ºå“ªäº›çº¿ç¨‹åœ¨è¿è¡Œ
-SHOW VARIABLES   -- æ˜¾ç¤ºç³»ç»Ÿå˜é‡ä¿¡æ¯ 
 
 
-/* æ•°æ®åº“æ“¦åš */
-SELECT DATABASES();   -- æ˜¾ç¤ºå½“å‰æ•°æ®åº“
-SELECT now();         -- æ˜¾ç¤ºå½“å‰æ—¶é—´
-SELECT USER();		  -- æ˜¾ç¤ºå½“å‰ç”¨æˆ·
-SELECT VERSION();     -- æ˜¾ç¤ºå½“å‰ç‰ˆæœ¬
+/* Á¬½Ó·þÎñÆ÷ */
+mysql -h µØÖ· -p ¶Ë¿Ú -u ÓÃ»§Ãû -p ÃÜÂë
 
--- åˆ›å»ºæ•°æ®åº“
-CREATE DATABASE[ IF NOT EXISTS] æ•°æ®åº“å æ•°æ®åº“é€‰é¡¹
-
-SHOW DATABASES[LIKE 'PATTERN']      -- æŸ¥çœ‹å½“å‰åº“çš„ä¿¡æ¯
-ALTER DATABASE åº“å é€‰é¡¹ä¿¡æ¯         -- ä¿®æ”¹æ•°æ®åº“é€‰é¡¹ä¿¡æ¯
-DROP DATABASE[IF EXISTS] æ•°æ®åº“å    -- åˆ é™¤æ•°æ®åº“
+SHOW PROCESSLIST -- ÏÔÊ¾ÄÄÐ©Ïß³ÌÔÚÔËÐÐ
+SHOW VARIABLES   -- ÏÔÊ¾ÏµÍ³±äÁ¿ÐÅÏ¢ 
 
 
-/* è¡¨çš„æ“ä½œ */
--- åˆ›å»ºè¡¨
-CREATE [TEMPORARY] TABLE [IF NOT EXISTS] [åº“å.]è¡¨å
-	å­—æ®µå æ•°æ®ç±»åž‹ [NOT NULL | NULL] [DEFAULT default_value] [AUTO_INCREMENT] [UNIQUE [KEY] | [PRIMARY | KEY]] [COMMENT 'STRING']
 
-	[è¡¨é€‰é¡¹]
-		CHARSET = charset_name  -- å¦‚æžœæ²¡æœ‰è®¾å®šï¼Œåˆ™é€‚ç”¨æ•°æ®åº“å­—ç¬¦é›†
-		ENGINE = engine_name    -- å¸¸ç”¨çš„ InnoDB MyISAM Memory/Heap BDB Merge CSV 
-			-- 	SHOW ENGINES æ˜¾ç¤ºå­˜å‚¨å¼•æ“Žçš„çŠ¶æ€ä¿¡æ¯
-			--  SHOW ENGINE  å¼•æ“Žå {LOGS|STATUS} æ˜¾ç¤ºå­˜å‚¨å¼•æ“Žçš„æ—¥å¿—æˆ–çŠ¶æ€ä¿¡æ¯
-		AUTO_INCREMENT          -- è‡ªå¢ž
 
--- æŸ¥çœ‹è¡¨
-SHOW TABLES [LIKE 'PATTERN']  -- æŸ¥çœ‹è¡¨
-SHOW CREATE TABLE è¡¨å        -- æŸ¥çœ‹è¡¨çš„è¯¦ç»†ä¿¡æ¯ 
-DESC è¡¨å                     -- è¡¨çš„æè¿°
-SHOW TABLE STATUS [FROM db_name] [LIKE 'pattern']  -- æŸ¥çœ‹è¡¨çŠ¶æ€
+/* Êý¾Ý¿â²Á×ö */
+SELECT DATABASES();   -- ÏÔÊ¾µ±Ç°Êý¾Ý¿â
+SELECT now();         -- ÏÔÊ¾µ±Ç°Ê±¼ä
+SELECT USER();		  -- ÏÔÊ¾µ±Ç°ÓÃ»§
+SELECT VERSION();     -- ÏÔÊ¾µ±Ç°°æ±¾
 
--- ä¿®æ”¹è¡¨
-ALTER TABLE è¡¨å è¡¨çš„é€‰é¡¹ï¼ˆegï¼šENGINE=MYISAM)
+-- ´´½¨Êý¾Ý¿â
+CREATE DATABASE[ IF NOT EXISTS] Êý¾Ý¿âÃû Êý¾Ý¿âÑ¡Ïî
 
--- è¡¨é‡å‘½å
-RENAME TABLE åŽŸè¡¨å TO æ–°è¡¨å
-RENAME TABLE åŽŸè¡¨å TO åº“å.è¡¨åï¼ˆå¯å°†è¡¨ç§»åŠ¨åˆ°å¦ä¸€ä¸ªæ•°æ®åº“ï¼‰ 
+SHOW DATABASES[LIKE 'PATTERN']      -- ²é¿´µ±Ç°¿âµÄÐÅÏ¢
+ALTER DATABASE ¿âÃû Ñ¡ÏîÐÅÏ¢         -- ÐÞ¸ÄÊý¾Ý¿âÑ¡ÏîÐÅÏ¢
+DROP DATABASE[IF EXISTS] Êý¾Ý¿âÃû    -- É¾³ýÊý¾Ý¿â
 
--- ä¿®æ”¹è¡¨çš„å­—æ®µ 
-ALTER TABLE è¡¨å æ“ä½œå
-	-- æ“ä½œå
-		ADD [COLUMN] å­—æ®µå®šä¹‰       -- å¢žåŠ å­—æ®µ
-			[ALTER å­—æ®µå | FIRST]  -- åˆ—çš„ä½ç½®
-		ADD PRIMARY KEY(å­—æ®µå)     -- åˆ›å»ºä¸»é”®
-		ADD UNIQUE KEY(å­—æ®µå)      -- åˆ›å»ºå”¯ä¸€ç´¢å¼•
-		ADD INDEX [ç´¢å¼•å] (å­—æ®µå)  -- åˆ›å»ºæ™®é€šç´¢å¼•
-		DROP [COLUMN] å­—æ®µå        -- åˆ é™¤å­—æ®µ
-		MODIFY [COLUMN] å­—æ®µå å­—æ®µå±žæ€§  -- å¯¹å­—æ®µå±žæ€§ä¿®æ”¹
-		CHANGE [COLUMN] åŽŸå­—æ®µå æ–°å­—æ®µå å­—æ®µå±žæ€§ -- ä¿®æ”¹å­—æ®µå
-		DROP PRIMARY KEY            -- åˆ é™¤ä¸»é”®ï¼ˆå¦‚æœ‰AUTO_INCREMENT é¡»å…ˆåˆ é™¤ AUTO_INCREMENT)
-		DROP INDEX ç´¢å¼•å            -- åˆ é™¤ç´¢å¼•
-		DROP FOREIGN KEY å¤–é”®        -- åˆ é™¤å¤–é”®
 
-DROP TABLE è¡¨å                               -- åˆ é™¤è¡¨
-TRUNCATE TABLE è¡¨å                           -- æ¸…ç©ºè¡¨ 
-CREATE TABLE è¡¨å LIKE è¦å¤åˆ¶çš„è¡¨å            -- å¤åˆ¶è¡¨ç»“æž„
-CREATE TABLE è¡¨å SELECT * FROM è¦å¤åˆ¶çš„è¡¨å   -- å¤åˆ¶è¡¨çš„ç»“æž„å’Œæ•°æ®
--- æ£€æŸ¥è¡¨æ˜¯å¦æœ‰è¯¯
+
+
+/* ±íµÄ²Ù×÷ */
+-- ´´½¨±í
+CREATE [TEMPORARY] TABLE [IF NOT EXISTS] [¿âÃû.]±íÃû
+	×Ö¶ÎÃû Êý¾ÝÀàÐÍ [NOT NULL | NULL] [DEFAULT default_value] [AUTO_INCREMENT] [UNIQUE [KEY] | [PRIMARY | KEY]] [COMMENT 'STRING']
+
+	[±íÑ¡Ïî]
+		CHARSET = charset_name  -- Èç¹ûÃ»ÓÐÉè¶¨£¬ÔòÊÊÓÃÊý¾Ý¿â×Ö·û¼¯
+		ENGINE = engine_name    -- ³£ÓÃµÄ InnoDB MyISAM Memory/Heap BDB Merge CSV 
+			-- 	SHOW ENGINES ÏÔÊ¾´æ´¢ÒýÇæµÄ×´Ì¬ÐÅÏ¢
+			--  SHOW ENGINE  ÒýÇæÃû {LOGS|STATUS} ÏÔÊ¾´æ´¢ÒýÇæµÄÈÕÖ¾»ò×´Ì¬ÐÅÏ¢
+		AUTO_INCREMENT          -- ×ÔÔö
+
+-- ²é¿´±í
+SHOW TABLES [LIKE 'PATTERN']  -- ²é¿´±í
+SHOW CREATE TABLE ±íÃû        -- ²é¿´±íµÄÏêÏ¸ÐÅÏ¢ 
+DESC ±íÃû                     -- ±íµÄÃèÊö
+SHOW TABLE STATUS [FROM db_name] [LIKE 'pattern']  -- ²é¿´±í×´Ì¬
+
+-- ÐÞ¸Ä±í
+ALTER TABLE ±íÃû ±íµÄÑ¡Ïî£¨eg£ºENGINE=MYISAM)
+
+-- ±íÖØÃüÃû
+RENAME TABLE Ô­±íÃû TO ÐÂ±íÃû
+RENAME TABLE Ô­±íÃû TO ¿âÃû.±íÃû£¨¿É½«±íÒÆ¶¯µ½ÁíÒ»¸öÊý¾Ý¿â£© 
+
+-- ÐÞ¸Ä±íµÄ×Ö¶Î 
+ALTER TABLE ±íÃû ²Ù×÷Ãû
+	-- ²Ù×÷Ãû
+		ADD [COLUMN] ×Ö¶Î¶¨Òå       -- Ôö¼Ó×Ö¶Î
+			[ALTER ×Ö¶ÎÃû | FIRST]  -- ÁÐµÄÎ»ÖÃ
+		ADD PRIMARY KEY(×Ö¶ÎÃû)     -- ´´½¨Ö÷¼ü
+		ADD UNIQUE KEY(×Ö¶ÎÃû)      -- ´´½¨Î¨Ò»Ë÷Òý
+		ADD INDEX [Ë÷ÒýÃû] (×Ö¶ÎÃû)  -- ´´½¨ÆÕÍ¨Ë÷Òý
+		DROP [COLUMN] ×Ö¶ÎÃû        -- É¾³ý×Ö¶Î
+		MODIFY [COLUMN] ×Ö¶ÎÃû ×Ö¶ÎÊôÐÔ  -- ¶Ô×Ö¶ÎÊôÐÔÐÞ¸Ä
+		CHANGE [COLUMN] Ô­×Ö¶ÎÃû ÐÂ×Ö¶ÎÃû ×Ö¶ÎÊôÐÔ -- ÐÞ¸Ä×Ö¶ÎÃû
+		DROP PRIMARY KEY            -- É¾³ýÖ÷¼ü£¨ÈçÓÐAUTO_INCREMENT ÐëÏÈÉ¾³ý AUTO_INCREMENT)
+		DROP INDEX Ë÷ÒýÃû            -- É¾³ýË÷Òý
+		DROP FOREIGN KEY Íâ¼ü        -- É¾³ýÍâ¼ü
+
+DROP TABLE ±íÃû                               -- É¾³ý±í
+TRUNCATE TABLE ±íÃû                           -- Çå¿Õ±í 
+CREATE TABLE ±íÃû LIKE Òª¸´ÖÆµÄ±íÃû            -- ¸´ÖÆ±í½á¹¹
+CREATE TABLE ±íÃû SELECT * FROM Òª¸´ÖÆµÄ±íÃû   -- ¸´ÖÆ±íµÄ½á¹¹ºÍÊý¾Ý
+-- ¼ì²é±íÊÇ·ñÓÐÎó
 CHECK TABLE  TABLE1 [, TABLE2]...[OPTION]...  
--- ä¼˜åŒ–è¡¨
+-- ÓÅ»¯±í
 OPTIMIZE [LOCAL | NO_WRITE_TO_BINLOG] TABLE TABLE1 [,TABLE2]...  
--- ä¿®å¤è¡¨
+-- ÐÞ¸´±í
 REPAIR [LOCAL | NO_WRITE_TO_BINLOG] TABLE TABLE1 [,TABLE2]...[QUICK] [EXTENDED] [USE_FROM] 
--- åˆ†æžè¡¨
+-- ·ÖÎö±í
 ANALYZE [LOCAL | NO_WRITE_TO_BINLOG] TABLE TABLE1 [TABLE2]...    
 
 
-/* æ•°æ®æ“ä½œ */
--- å¢ž
-	INSERT [INTO] è¡¨å [COLUMNS] VALUES [VALUES...]
--- åˆ 
-	DELETE FROM è¡¨å [condition]
--- æ”¹ 
+
+
+/* Êý¾Ý²Ù×÷ */
+-- Ôö
+	INSERT [INTO] ±íÃû [COLUMNS] VALUES [, VALUES...]
+	-- ÔÚ²åÈëµÄÖµ³öÏÖÖ÷¼ü»òÎ¨Ò»Ë÷Òý³åÍ»Ê±£¬¸üÐÂÆäËû·ÇÖ÷¼üÁÐµÄÐÅÏ¢
+	INSERT INTO TABLE_NAME VALUES/SET/SELECT ON DUPLICATE KEY UPDATE COLUMN=VALUE ...;
+-- É¾
+	DELETE FROM ±íÃû [condition] [ORDER BY COLUMN] [LIMIT NUM]
+	TRUNCATE TABLE 
+	-- DELETE TRUNCATE Çø±ð
+		TRUNCATE : É¾³ý±íÔÚÖØ½¨£¨ÓÃÓÚ´ø·ÖÇøµÄ±íÊÇ£¬»á±£Áô·ÖÇø£©
+		DELETE : ÖðÌõÉ¾³ý
+-- ¸Ä 
 	UPDATE TABLE_NAME SET COLUMN_NAME = VALUE [COLUMN_NAME=VALUE] [CONDITION]
--- æŸ¥
+-- ²é
 	SELECT COLUMNS FROM TABLE_NAME [CONDITION]
 
 
-/* æ•°æ®ç±»åž‹ï¼ˆåˆ—ç±»åž‹ï¼‰ */
--- æ•´å½¢
-	tinyint    1å­—èŠ‚		-128~127
-	smallint   2å­—èŠ‚     -32768~32767
-	mediumint  3å­—èŠ‚     -8388608~8388607
-	int        4å­—èŠ‚   
-	bigint     8å­—èŠ‚
 
--- æµ®ç‚¹åž‹
-	float      4å­—èŠ‚
-	double     8å­—èŠ‚
-	å®šä¹‰æ˜¯éœ€è¦æŒ‡å®šæ€»ä½æ•°å’Œå°æ•°ä½æ•°
-	float(M, D), double(M, D)    Mè¡¨ç¤ºæ€»ä½æ•°ï¼ŒDè¡¨ç¤ºå°æ•°ä½æ•°
 
--- å®šç‚¹æ•°
-	decimal  -- å¯å˜é•¿åº¦
-	decimal(M, D)    Mè¡¨ç¤ºæ€»ä½æ•°ï¼ŒDè¡¨ç¤ºå°æ•°ä½æ•°
-	ä¿å­˜ä¸€ä¸ªç²¾ç¡®çš„æ•°å€¼ï¼Œä¸ä¼šå‘ç”Ÿæ•°æ®çš„æ”¹å˜
+/* Êý¾ÝÀàÐÍ£¨ÁÐÀàÐÍ£© */
+-- ÕûÐÎ
+	tinyint    1×Ö½Ú		-128~127
+	smallint   2×Ö½Ú     -32768~32767
+	mediumint  3×Ö½Ú     -8388608~8388607
+	int        4×Ö½Ú   
+	bigint     8×Ö½Ú
 
--- å­—ç¬¦ä¸²ç±»åž‹ char varchar
-	char    å®šå¸¸å­—ç¬¦ä¸²ï¼Œé€Ÿåº¦å¿«ï¼Œä½†æµªè´¹ç©ºé—´ï¼ˆæœ€å¤š255ä¸ªå­—ç¬¦ï¼Œä¸Žç¼–ç æ— å…³ï¼‰
-	varchar è¾¹é•¿å­—ç¬¦ä¸²ï¼Œé€Ÿåº¦æ…¢ï¼Œä½†èŠ‚çœç©ºé—´ï¼ˆæœ€å¤š65535ä¸ªå­—ç¬¦ï¼Œä¸Žç¼–ç æœ‰å…³ï¼‰
-	varchar æœ€å¤§æœ‰æ•ˆé•¿åº¦65532ï¼Œå› ä¸ºvarcharåœ¨å­˜å­—ç¬¦ä¸²æ—¶ï¼Œç¬¬ä¸€ä¸ªå­—èŠ‚æ˜¯ç©ºçš„ï¼Œä¸å­˜åœ¨ä»»ä½•æ•°æ®ï¼Œç„¶åŽè¿˜éœ€ä¸¤ä¸ªå­—èŠ‚æ¥å­˜æ”¾å­—ç¬¦ä¸²çš„é•¿åº¦ã€‚
+-- ¸¡µãÐÍ
+	float      4×Ö½Ú
+	double     8×Ö½Ú
+	¶¨ÒåÊÇÐèÒªÖ¸¶¨×ÜÎ»ÊýºÍÐ¡ÊýÎ»Êý
+	float(M, D), double(M, D)    M±íÊ¾×ÜÎ»Êý£¬D±íÊ¾Ð¡ÊýÎ»Êý
+
+-- ¶¨µãÊý
+	decimal  -- ¿É±ä³¤¶È
+	decimal(M, D)    M±íÊ¾×ÜÎ»Êý£¬D±íÊ¾Ð¡ÊýÎ»Êý
+	±£´æÒ»¸ö¾«È·µÄÊýÖµ£¬²»»á·¢ÉúÊý¾ÝµÄ¸Ä±ä
+
+-- ×Ö·û´®ÀàÐÍ char varchar
+	char    ¶¨³£×Ö·û´®£¬ËÙ¶È¿ì£¬µ«ÀË·Ñ¿Õ¼ä£¨×î¶à255¸ö×Ö·û£¬Óë±àÂëÎÞ¹Ø£©
+	varchar ±ß³¤×Ö·û´®£¬ËÙ¶ÈÂý£¬µ«½ÚÊ¡¿Õ¼ä£¨×î¶à65535¸ö×Ö·û£¬Óë±àÂëÓÐ¹Ø£©
+	varchar ×î´óÓÐÐ§³¤¶È65532£¬ÒòÎªvarcharÔÚ´æ×Ö·û´®Ê±£¬µÚÒ»¸ö×Ö½ÚÊÇ¿ÕµÄ£¬²»´æÔÚÈÎºÎÊý¾Ý£¬È»ºó»¹ÐèÁ½¸ö×Ö½ÚÀ´´æ·Å×Ö·û´®µÄ³¤¶È¡£
 
 -- blob text 
-	blob äºŒè¿›åˆ¶å­—ç¬¦ä¸²ï¼ˆå­—èŠ‚å­—ç¬¦ä¸²)
+	blob ¶þ½øÖÆ×Ö·û´®£¨×Ö½Ú×Ö·û´®)
 		tinyblob, blob, mediumblob, longblob
-	text éžäºŒè¿›åˆ¶å­—ç¬¦ä¸²ï¼ˆä¸éœ€è¦ç»™å®šé•¿åº¦ï¼‰
-		tinytextï¼Œ textï¼Œmediumtextï¼Œ longtext
+	text ·Ç¶þ½øÖÆ×Ö·û´®£¨²»ÐèÒª¸ø¶¨³¤¶È£©
+		tinytext£¬ text£¬mediumtext£¬ longtext
 
 -- binary 
-	ç±»ä¼¼äºŽchar å’Œvarcharï¼Œç”¨äºŽä¿å­˜äºŒè¿›åˆ¶å­—ç¬¦ä¸²
-	charï¼Œ varchar, text  å¯¹åº” binaryï¼Œvarbinaryï¼Œ blob
+	ÀàËÆÓÚchar ºÍvarchar£¬ÓÃÓÚ±£´æ¶þ½øÖÆ×Ö·û´®
+	char£¬ varchar, text  ¶ÔÓ¦ binary£¬varbinary£¬ blob
 
--- æ—¶é—´å’Œæ—¥æœŸç±»åž‹
-	datetime    8å­—èŠ‚    æ—¥æœŸåŠæ—¶é—´    1000-01-01ï¼š 00ï¼š00ï¼š00 ~ 9999-12-31 23ï¼š59ï¼š59
-	date        3å­—èŠ‚	 æ—¥æœŸ
-	timestamp   4å­—èŠ‚                 19700101000000 ~ 2038-01-19 03ï¼š14ï¼š07
-	time        3å­—èŠ‚     æ—¶é—´         -838:59:59 ~ 838:59:59
-	year        1å­—èŠ‚     å¹´          1901 ~ 2155
+-- Ê±¼äºÍÈÕÆÚÀàÐÍ
+	datetime    8×Ö½Ú    ÈÕÆÚ¼°Ê±¼ä    1000-01-01£º 00£º00£º00 ~ 9999-12-31 23£º59£º59
+	date        3×Ö½Ú	 ÈÕÆÚ
+	timestamp   4×Ö½Ú                 19700101000000 ~ 2038-01-19 03£º14£º07
+	time        3×Ö½Ú     Ê±¼ä         -838:59:59 ~ 838:59:59
+	year        1×Ö½Ú     Äê          1901 ~ 2155
 
 
-/* åˆ—å±žæ€§ï¼ˆåˆ—çº¦æŸï¼‰ */
+
+
+
+/* ÁÐÊôÐÔ£¨ÁÐÔ¼Êø£© */
 -- primary key 
-	- èƒ½å”¯ä¸€æ ‡è¯†è®°å½•çš„å­—æ®µï¼Œå¯ä»¥ä½œä¸ºä¸»é”®
-	- ä¸€ä¸ªè¡¨åªèƒ½æœ‰ä¸€ä¸ªä¸»é”®
+	- ÄÜÎ¨Ò»±êÊ¶¼ÇÂ¼µÄ×Ö¶Î£¬¿ÉÒÔ×÷ÎªÖ÷¼ü
+	- Ò»¸ö±íÖ»ÄÜÓÐÒ»¸öÖ÷¼ü
 
--- unique å”¯ä¸€ç´¢å¼•
-	- ä½¿å¾—æŸå­—æ®µçš„å€¼ä¸èƒ½ä¸ºé‡å¤
+-- unique Î¨Ò»Ë÷Òý
+	- Ê¹µÃÄ³×Ö¶ÎµÄÖµ²»ÄÜÎªÖØ¸´
 
--- foreign key å¤–é”®çº¦æŸ
-	- ç”¨äºŽé™åˆ¶ä¸»è¡¨ä¸Žä»Žè¡¨æ•°æ®å®Œæ•´æ€§
+-- foreign key Íâ¼üÔ¼Êø
+	- ÓÃÓÚÏÞÖÆÖ÷±íÓë´Ó±íÊý¾ÝÍêÕûÐÔ
 	ALTER TABLE t1 ADD CONSTRAINT `t1_t2_fk` FOREIGN KEY(t1_id) references t12(id);
-	å­˜åœ¨å¤–é”®çš„è¡¨æˆä¸ºå­è¡¨ï¼Œå¤–é”®æŒ‡å‘çš„è¡¨ï¼Œæˆä¸ºçˆ¶è¡¨
+	´æÔÚÍâ¼üµÄ±í³ÉÎª×Ó±í£¬Íâ¼üÖ¸ÏòµÄ±í£¬³ÉÎª¸¸±í
 
 
-/* å»ºè¡¨è§„èŒƒ */
--- ç¬¬ä¸€èŒƒå¼
-	å­—æ®µä¸å¯å†åˆ†
--- ç¬¬äºŒèŒƒå¼
-	ä¸å­˜åœ¨éƒ¨åˆ†å‡½æ•°ä¾èµ–
--- ç¬¬ä¸‰èŒƒå¼
-	ä¸å­˜åœ¨ä¼ é€’å‡½æ•°ä¾èµ–
+
+
+/* ½¨±í¹æ·¶ */
+-- µÚÒ»·¶Ê½
+	×Ö¶Î²»¿ÉÔÙ·Ö
+-- µÚ¶þ·¶Ê½
+	²»´æÔÚ²¿·Öº¯ÊýÒÀÀµ
+-- µÚÈý·¶Ê½
+	²»´æÔÚ´«µÝº¯ÊýÒÀÀµ
+
+
+
+
+/* SELECT */
+SELECT [ALL | DISTINCT] select_expr FROM -> WHERE -> GROUP BY [ºÏ¼Æº¯Êý] -> HAVING -> ORDER BY -> LIMIT ~ OFFSET ~
 	
+		
+
+
+/* µ¼Èëµ¼³ö */
+- µ¼³öÊý¾Ý£º SELECT * INTO outfile ÎÄ¼þµØÖ· [¿ØÖÆ¸ñÊ½] FROM ±íÃû;    
+- µ¼³öÊý¾Ý£º LOAD DATA [local] infile ÎÄ¼þµØÖ· [replace|IGNORE] INTO TABLE ±íÃû [¿ØÖÆ¸ñÊ½];
+	-- Ä¬ÈÏÎÄ¼þµØÖ·£ºC:/ProgramData/MySQL/MySQL Server 8.0/Uploads
+	-- replace|IGNORE ¶ÔÏÖÓÐÎ¨Ò»¼ü¼ÇÂ¼µÄÖØ¸´µÄ´¦Àí
+
+	- ¿ØÖÆ¸ñÊ½
+		Ä¬ÈÏ£ºfields terminated by '\t' enclosed by '' escaped by '\\'
+		terminated by 'string'    -- ÖÕÖ¹
+		enclosed by 'char'        -- °ü¹ü
+		escaped by 'char'         -- ×ªÒå 
 
 
 
 
+/* ±¸·ÝÓë»¹Ô­ */
+- µ¼³ö
+	mysqldump [options] db_name [tables]
+
+	eg£º mysqldump -uÓÃ»§Ãû -pÃÜÂë ¿âÃû [±íÃû1, 2...] > (D:/D.sql)
+
+- µ¼Èë 
+	- µÇÂ¼Çé¿öÏÂ 
+		source ±¸·ÝÎÄ¼þ
+	- ·ÇµÇÂ¼Çé¿öÏÂ
+		mysql -uÓÃ»§Ãû -pÃÜÂë ¿âÃû < ±¸·ÝÎÄ¼þ
+
+
+
+
+/* ÊÓÍ¼ */
+- ¶¨Òå
+	    ÊÓÍ¼ÊÇÒ»ÕÅÐéÄâ±í£¬ÆäÄÚÈÝÓÉ²éÑ¯¶¨Òå¡£Í¬ÕæÊµµÄ±íÒ»Ñù£¬ÊÓÍ¼°üº¬Ò»ÏµÁÐ´øÓÐÃû³ÆµÄÁÐºÍÐÐÊý¾Ý¡£
+	µ«ÊÇÊÓÍ¼²¢²»ÔÚÊý¾Ý¿âÖÐÒÔ´æ´¢µÄÊý¾ÝÖµ¼¯ÐÎÊ½´æÔÚ¡£ÐÐºÍÁÐÊý¾ÝÀ´×Ô×ÔÓÉ¶¨ÒåÊÓÍ¼µÄ²éÑ¯ËùÓÐÒýÓÃµÄ±í£¬
+	²¢ÇÒÔÚÒýÓÃÊÓÍ¼Ê±¶¯Ì¬Éú³É¡£
+- ×÷ÓÃ
+	°²È«£¬¿ÉÒÔÊ¹¸´ÔÓµÄ´©Ò×ÓÚÀí½â
+
+- ´´½¨ÊÓÍ¼
+	CREATE [OR REPLACE] [ALGORITHM={UNDEFINED|MERGE|TEMPLATE}] VIEW VIEW_NAME [(column_list)] AS select_statment
+	-- ÊÓÍ¼Ëã·¨
+		-- MERGE ½«ÊÓÍ¼µÄ²éÑ¯Óï¾ä£¬ÓëÍâ²¿²éÑ¯ÐèÒªÏÈºÏ²¢ÔÙÖ´ÐÐ
+		-- TEMPLATE ½«ÊÓÍ¼Ö´ÐÐÍê±Ïºó£¬ÐÎ³ÉÁÙÊ±±í£¬ÔÚ×öÍâ²ã²éÑ¯
+		-- UNDEFINED Î´¶¨Òå£¨Ä¬ÈÏ£©£¬Ö¸µÄÊÇmysql×ÔÖ÷È¥Ñ¡ÔñÏàÓ¦µÄËã·¨
+
+- ²é¿´½á¹¹
+	SHOW CREATE VIEW VIEW_NAME 
+
+- É¾³ýÊÓÍ¼
+	DROP VIEW [IF EXISTS] VIEW_NAME ...
+
+- ÐÞ¸ÄÊÓÍ¼
+	ALTER VIEW VIEW_NAME [(COLUMN_LIST)] AS select_statment
+
+
+
+
+/* ÊÂÎñ */
+ÊÂÎñÊÇÖ¸Âß¼­ÉÏµÄÒ»×é²Ù×÷£¬×é³É²Ù×÷µÄ¸÷¸öµ¥Ôª£¬ÒªÃ´È«³É¹¦ÒªÃ´È«Ê§°Ü
+	- InnoDB ±»³ÉÎªÊÂÎñ°²È«ÐÍÒýÇæ
+
+- ÊÂÎñ¿ªÆô: START TRANSACTION »òÕß BEGIN 
+- ÊÂÎñÌá½»: COMMIT 
+- ÊÂÎñ»Ø¹ö: ROLLBACK
+
+-- ÊÂÎñµÄÌØÕ÷
+	1¡¢Ô­×ÓÐÔ£¨Atomicity£©£ºÊÂÎñÊÇÒ»¸ö²»¿É·Ö¸îµÄ¹¤×÷µ¥Ôª£¬ÊÂÎñÖÐµÄ²Ù×÷ÒªÃ´¶¼·¢Éú£¬ÒªÃ´¶¼²»·¢Éú
+	2¡¢Ò»ÖÂÐÔ£¨Consistency£©£ºÊÂÎñÇ°ºóÊý¾ÝµÄÍêÕûÐÔ±ØÐë±£³ÖÒ»ÖÂ¡£ Õû¸öÊÂÎñ¹ý³ÌÖÐ£¬²Ù×÷ÊÇÁ¬ÐøµÄ
+	3¡¢¸ôÀëÐÔ£¨Isolation£©£º¶à¸öÓÃ»§²¢·¢·ÃÎÊÊý¾Ý¿âÊ±£¬Ò»¸öÓÃ»§µÄÊÂÎñ²»ÄÜ±»ÆäËûÓÃ»§µÄÊÂÎñËù¸ÉÈÅ£¬
+	                      ¶à¸ö²¢·¢ÊÂÎñÖ®¼äµÄÊý¾ÝÒªÏà»¥¸ôÀë
+    4¡¢³Ö¾ÃÐÔ£¨Durability£©£ºÒ»¸öÊÂÎñÒ»µ©±»Ìá½»£¬Ëü¶ÔÊý¾Ý¿âÖÐµÄÊý¾Ý¸Ä±äÊÇÓÀ¾ÃÐÔµÄ
+
+-- ×¢Òâ
+	* Êý¾Ý¿â¶¨ÒåÓïÑÔ(DDL) Óï¾ä²»ÄÜ»Ø¹ö
+	* ÊÂÎñ²»ÄÜ±»Ç¶Ì× 
+
+-- ±£´æµã
+	SAVEPOINT                  -- ÉèÖÃÒ»¸öÊÂÎñ±£´æµã
+	ROLLBACK TO SAVEPOINT      -- »Ø¹öµ½±£´æµã
+	RELEASE SAVEPOINT          -- É¾³ý±£´æµã
+
+-- InnoDB ×Ô¶¯Ìá½»ÌØÐÔÉèÖÃ
+	SET autocommit = 0|1       -- 0±íÊ¾¹Ø±Õ×Ô¶¯Ìá½»£¬1±íÊ¾¿ªÆô×Ô¶¯Ìá½»
+
+
+
+
+/* Ëø±í */
+±íËø¶¨Ö»ÓÃÓÚ·ÀÖ¹ÆäËü¿Í»§¶Ë½øÐÐ²»Õýµ±µØ¶ÁÐ´
+MyISAM£ºÖ§³Ö±íËø£¬ InnoDB£ºÖ§³ÖÐÐËø
+-- Ëø¶¨
+	LOCK TABLES table_name [AS alias]
+-- ½âËø
+	UNLOCK TABLES 
+
+
+
+
+/* ´¥·¢Æ÷ */
+	³ö·¢³ÌÐòÊÇÓë±íÓÐ¹ØµÄÃüÃûÊý¾Ý¿â¶ÔÏó£¬µ±¸Ã±í³öÏÖÌØ¶¨ÊÂ¼þÊ±£¬½«¼¤»î¸Ä¶ÔÏó
+	¼àÌý£º ¼ÇÂ¼µÄÔö¼Ó¡¢ÐÞ¸Ä¡¢É¾³ý
+
+-- ´´½¨´¥·¢Æ÷
+CREATE TRIGGER trigger_name trigger_time trigger_event ON table_name FOR EACH ROW trigger_stmt
+	- trigger_time£º³ö·¢³ÌÐòµÄ¶¯×÷Ê±¼ä¡££¨¿ÉÒÔÊÇbefore »ò after£¬ÒÔÖ¸¶¨³ö·¢³ÌÐòÊÇÔÚ¼¤»îËüµÄÓï¾äÖ®Ç°»òÖ®ºó³ö·¢£©
+	- trigger_event: Ö¸Ã÷ÁË¼¤»î´¥·¢³ÌÐòµÄÓï¾äµÄÀàÐÍ 
+		INSERT: ½«ÐÂÐÐ²åÈë±íÊ±¼¤»î´¥·¢³ÌÐò
+		UPDATE: ¸ü¸ÄÄ³Ò»ÐÐÊ±¼¤»î´¥·¢³ÌÐò
+		DELETE: ´Ó±íÖÐÉ¾³ýÄ³Ò»ÐÐÊ±´¥·¢¼¤»î³ÌÐò
+	- table_name£º ±ØÐëÊÇÓÀ¾ÃÐÔµÄ±í£¬²»ÄÜÊÇÁÙÊ±±í»òÊÓÍ¼
+	- trigger_stmt: µ±´¥·¢³ÌÐò¼¤»îÊ±Ö´ÐÐµÄÓï¾ä¡£ Ö´ÐÐ¶à¸öÓï¾ä£¬¿ÉÊ¹ÓÃBEGIN...END ¸´ºÏÓï¾ä½á¹¹
+
+-- É¾³ý´¥·¢Æ÷
+DROP TRIGGER trigger_name
+
+-- ×Ö·ûÁ¬½Óº¯Êý
+concat£¨str1, str2...)
+concat_ws(separater, str1, str2...)
+
+-- ·ÖÖ§Óï¾ä
+if condition then
+	execute_express
+elseif condition_1 then 
+	execute_express_1
+else 
+	execute_express_2
+end if;
+
+-- ÐÞ¸Ä½áÊø·û
+delimiter ×Ô¶¨Òå½áÊø·ûºÅ
+	SQLÓï¾ä
+×Ô¶¨Òå½áÊø·ûºÅ
+
+-- ÌØÊâµÄÖ´ÐÐ
+	- Ö»ÒªÌí¼Ó¼ÇÂ¼£¬¾Í»á´¥·¢³ÌÐò
+	- insert into on duplicate key update »á´¥·¢£º
+		Èç¹ûÃ»ÓÐÖØ¸´¼ÇÂ¼£¬»á´¥·¢£ºbefore insert£¬ after insert 
+		Èç¹ûÓÐÖØ¸´¼ÇÂ¼²¢¸üÐÂ£¬»á´¥·¢£ºbefore insert£¬ before update£¬ after update
+		Èç¹ûÓÐÖØ¸´¼ÇÂ¼µ«ÊÇÃ»ÓÐ·¢Éú¸üÐÂ£¬Ôò´¥·¢£º before insert£¬ before update 
+	- replace Óï·¨ Èç¹ûÓÐ¼ÇÂ¼£¬ÔòÖ´ÐÐ£º before insert£¬ before delete£¬after delete, after insert 
+
+
+/* º¯Êý */
+-- ÐÂ½¨
+	CREATE FUNCTION function_name (²ÎÊýÁÐ±í) RETURNS ·µ»ØÖµÀàÐÍ
+		º¯ÊýÌå
+
+-- É¾³ý
+	DROP FUNCTION [IF EXISTS] function_name;
+
+-- ²é¿´
+	SHOW FUNCTION STATUS LIKE 'PATTERN'
+	SHOW CREATE FUNCTION function_name
+
+-- ÐÞ¸Ä 
+	ALTER FUNCTION function_name º¯ÊýÑ¡Ïî  
+
+
+
+
+/* ´æ´¢¹ý³Ì */
+-- ¶¨Òå
+	- ´æ´¢¹ý³ÌÊÇÒ»¶Î´æ´¢ÔÚÊý¾Ý¿âÖÐµÄsql´úÂë¡£
+	- Ò»¸ö´æ´¢¹ý³ÌÍ¨³£ÓÃÓÚÍê³ÉÒ»¶ÎÒµÎñÂß¼­£¬ÀýÈç±¨Ãû£¬¶©µ¥Èë¿âµÈ
+	- Ò»¸öº¯ÊýÍ¨³£×¨×¢Ä³¸ö¹¦ÄÜ£¬ÊÓÎªÆäËû³ÌÐò·þÎñµÄ£¬¿ÉÒÔÔÚ´æ´¢¹ý³ÌÖÐµ÷ÓÃº¯Êý¡£ 
+	  ´æ´¢¹ý³Ì²»ÄÜ±»µ÷ÓÃ£¬ÊÇ×Ô¼ºÖ´ÐÐ£¬Í¨¹ý call Ö´ÐÐ
+
+-- ´´½¨
+CREATE PROCEDURE name£¨²ÎÊýÁÐ±í£©
+	BEGIN 
+		¹ý³ÌÌå
+	END
+
+	- ²ÎÊýÁÐ±í£º²»Í¬ÓÚº¯ÊýµÄ²ÎÊýÁÐ±í£¬ÐèÒªÖ¸Ã÷²ÎÊýÀàÐÍ 
+				IN£ºÊäÈëÐÍ 
+				OUT£ºÊä³öÐÍ
+				INOUT£º»ìºÏÐÍ
+
+
+
+
+
+/* ÄÚÖÃº¯Êý */
+-- ÊýÖµº¯Êý
+abs(x)          -- ¾ø¶ÔÖµ abs(-10.9) = 10
+format(x, d)    -- ¸ñÊ½»¯Ç§·ÖÎ»ÊýÖµ format(1234567.456, 2) = 1,234,567.46
+ceil(x)         -- ÏòÉÏÈ¡Õû ceil(10.1) = 11
+floor(x)        -- ÏòÏÂÈ¡Õû floor (10.1) = 10
+round(x)        -- ËÄÉáÎåÈëÈ¥Õû
+mod(m, n)       -- m%n m mod n ÇóÓà 10%3=1
+pi()            -- »ñµÃÔ²ÖÜÂÊ
+pow(m, n)       -- m^n
+sqrt(x)         -- ËãÊõÆ½·½¸ù
+rand()          -- Ëæ»úÊý
+truncate(x, d)  -- ½ØÈ¡dÎ»Ð¡Êý
+
+-- Ê±¼äÈÕÆÚº¯Êý
+now(), current_timestamp();     -- µ±Ç°ÈÕÆÚÊ±¼ä
+current_date();                 -- µ±Ç°ÈÕÆÚ
+current_time();                 -- µ±Ç°Ê±¼ä
+date('yyyy-mm-dd hh:ii:ss');    -- »ñÈ¡ÈÕÆÚ²¿·Ö
+time('yyyy-mm-dd hh:ii:ss');    -- »ñÈ¡Ê±¼ä²¿·Ö
+date_format('yyyy-mm-dd hh:ii:ss', '%d %y %a %d %m %b %j'); -- ¸ñÊ½»¯Ê±¼ä
+unix_timestamp();               -- »ñµÃunixÊ±¼ä´Á
+from_unixtime();                -- ´ÓÊ±¼ä´Á»ñµÃÊ±¼ä
+
+-- ×Ö·û´®º¯Êý
+length(string)          -- string³¤¶È£¬×Ö½Ú
+char_length(string)     -- stringµÄ×Ö·û¸öÊý
+substring(str, position [,length])      -- ´ÓstrµÄposition¿ªÊ¼,È¡length¸ö×Ö·û
+replace(str ,search_str ,replace_str)   -- ÔÚstrÖÐÓÃreplace_strÌæ»»search_str
+instr(string ,substring)    -- ·µ»ØsubstringÊ×´ÎÔÚstringÖÐ³öÏÖµÄÎ»ÖÃ
+concat(string [,...])   -- Á¬½Ó×Ö´®
+charset(str)            -- ·µ»Ø×Ö´®×Ö·û¼¯
+lcase(string)           -- ×ª»»³ÉÐ¡Ð´
+left(string, length)    -- ´Óstring2ÖÐµÄ×ó±ßÆðÈ¡length¸ö×Ö·û
+load_file(file_name)    -- ´ÓÎÄ¼þ¶ÁÈ¡ÄÚÈÝ
+locate(substring, string [,start_position]) -- Í¬instr,µ«¿ÉÖ¸¶¨¿ªÊ¼Î»ÖÃ
+lpad(string, length, pad)   -- ÖØ¸´ÓÃpad¼ÓÔÚstring¿ªÍ·,Ö±µ½×Ö´®³¤¶ÈÎªlength
+ltrim(string)           -- È¥³ýÇ°¶Ë¿Õ¸ñ
+repeat(string, count)   -- ÖØ¸´count´Î
+rpad(string, length, pad)   --ÔÚstrºóÓÃpad²¹³ä,Ö±µ½³¤¶ÈÎªlength
+rtrim(string)           -- È¥³ýºó¶Ë¿Õ¸ñ
+strcmp(string1 ,string2)    -- Öð×Ö·û±È½ÏÁ½×Ö´®´óÐ¡
+
+-- Á÷³Ìº¯Êý
+case when [condition] then result [when [condition] then result ...] [else result] end   ¶à·ÖÖ§
+if(expr1,expr2,expr3)  Ë«·ÖÖ§¡£
+
+-- ¾ÛºÏº¯Êý
+count()
+sum();
+max();
+min();
+avg();
+group_concat()
+
+-- ÆäËûº¯Êý
+md5();
+default();
+
+
+
+
+/* ÓÃ»§ºÍÈ¨ÏÞ¹ÜÀí */
+-- root ÖØÖÃÃÜÂë
+	1.use mysql;	
+	2.UPDATE `user` SET PASSWORD=PASSWORD("new_password") WHERE `user` ='root';
+	3.FLUSH PRIVILEGES;  -- Ë¢ÐÂÈ¨ÏÞ 
 
 
 
