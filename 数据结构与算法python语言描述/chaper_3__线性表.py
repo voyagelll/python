@@ -199,9 +199,25 @@ class LCList:
             node.next = self.rear.next
             self.rear.next = node
 
+    def pop(self):
+        if self.rear is None:
+            raise LinkedListUnderflow()
+        else:
+            self.rear.next = self.rear.next.next
+
     def append(self, elem):
         self.prepend(elem)
         self.rear = self.rear.next
+
+    def pop_last(self):
+        if self.rear is None:
+            raise LinkedListUnderflow()
+        else:
+            p = self.rear
+            while p.next is not self.rear:
+                p = p.next
+            p.next = self.rear.next
+            self.rear = p
 
     def printall(self):
         if self.is_empty():
@@ -214,8 +230,15 @@ class LCList:
             p = p.next
 
 
+
+
 lc1 = LCList()
 for i in range(5):
     lc1.append(i)
     lc1.prepend(i)
+lc1.printall()
+
+print("")
+lc1.pop()
+lc1.pop_last()
 lc1.printall()
