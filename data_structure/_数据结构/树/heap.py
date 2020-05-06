@@ -29,7 +29,7 @@ class heap(object):
 		# 如果插入的元素比父节点大，则交换，知道最后
 		while parent is not None and self.data_list[parent] < self.data_list[index]:
 			self.swap(parent, index)
-			index = parnet 
+			index = parent
 			parent = self.get_parent_index(parent)
 
 	def removeMax(self):

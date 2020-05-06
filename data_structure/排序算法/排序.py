@@ -21,6 +21,24 @@ l = [8,8,7,5,4,2,2,1,1,1,0,6,9,9]
 # print(bubble_sort(l))
 
 
+def bubble(l):
+	for i in range(1, len(l)):
+		for j in range(0, len(l)-i):
+			if l[j] > l[j+1]:
+				l[j], l[j+1] = l[j+1], l[j]
+	return l
+
+# print(bubble(l))
+
+def bubble(l):
+	for i in range(1, len(l)):
+		for j in range(0, len(l)-i):
+			if l[j] > l[j+1]:
+				l[j], l[j+1] = l[j+1], l[j]
+	return l
+
+print('bubble:', bubble(l))
+
 
 """
 	选择排序
@@ -44,6 +62,29 @@ def select_sort(sequence):
 
 # print(select_sort(l))
 
+
+def select(l):
+	for i in range(len(l)):
+		minIndex = i
+		for j in range(i+1, len(l)):
+			if l[minIndex] > l[j]:
+				minIndex = j
+		l[minIndex], l[i] = l[i], l[minIndex]
+	return l
+
+# print(select(l))
+
+
+def select_(l):
+	for i in range(len(l)):
+		mi = 0
+		for j in range(i, len(l)):
+			if l[i] > l[j]:
+				mi = j
+		l[mi], l[j] = l[j], l[mi]
+	return l
+
+print('select:', select_(l))
 
 
 """
@@ -70,6 +111,24 @@ def insert_sort(sequence):
 # print(insert_sort(l))
 
 
+def insert(l):
+	for i in range(1, len(l)):
+		while i>0 and l[i-1]>l[i]:
+			l[i], l[i-1] = l[i-1], l[i]
+			i -= 1
+	return l
+
+# print(insert(l))
+
+def insert_(l):
+	for i in range(1, len(l)):
+		while i>0 and l[i-1]>l[i]:
+			l[i], l[i-1] = l[i-1], l[i]
+			i -= 1
+	return l
+
+print('insert:', insert_(l))
+
 
 """
 	希尔排序
@@ -93,7 +152,21 @@ def shell_sort(sequence):
 	return sequence 
 
 
-print(shell_sort(l))
+# print(shell_sort(l))
+
+
+def shell(l):
+	gap = len(l)
+	while gap > 1:
+		gap = gap//2
+		for i in range(gap, len(l)):
+			print(i%gap, i, gap, list(range(i%gap, i, gap)))
+			for j in range(i%gap, i, gap):
+				if l[i] < l[j]:
+					l[i], l[j] = l[j], l[i]
+	return l
+
+# print(shell(l))
 
 
 """
@@ -134,6 +207,27 @@ def merge(left, right):
 # print(merge_sort(l))
 
 
+def merge_sort_(l):
+	if len(l) < 2:
+		return l
+	mid = math.floor(len(l)/2)
+	left, right = l[0:mid], l[mid:]
+	return merge_(merge_sort_(left), merge_sort_(right))
+
+def merge_(left, right):
+	result = []
+	while left and right:
+		if left[0] <= right[0]:
+			result.append(left.pop(0))
+		else:
+			result.append(right.pop(0))
+	while left:
+		result.append(left.pop(0))
+	while right:
+		result.append(right.pop(0))
+	return result
+
+# print(merge_sort_(l))
 
 
 """
@@ -168,8 +262,32 @@ def quick_sort(l):
 	recursive(0, len(l)-1)
 	return l
 
-print(quick_sort(l))
+# print(quick_sort(l))
 # print(l)
+
+
+def quick(l):
+	def recursive(first, last):
+		if first >= last:
+			return l
+		high = last
+		low = first
+		mid = l[low]
+
+		while low<high:
+			while low<high and l[high]>=mid:
+				high -= 1
+			l[low] = l[high]
+			while low<high and l[low]<=mid:
+				low += 1
+			l[high] = l[low]
+		l[low] = mid
+		recursive(0, low-1)
+		recursive(low+1, last)
+	recursive(0, len(l)-1)
+	return l
+
+print('quick:', quick(l))
 
 
 

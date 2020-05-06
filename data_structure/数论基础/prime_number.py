@@ -18,7 +18,7 @@ def find_prime(num):
 		print(num, 'is not prime number')
 
 
-# num = int(input('Please one number:'))
+# num = int(input('Please one nu6mber:'))
 # find_prime(num)
 
 
@@ -44,3 +44,4 @@ def find_prime2(num):
 
 
 print(find_prime2(100))
+

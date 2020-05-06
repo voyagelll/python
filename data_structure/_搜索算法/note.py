@@ -65,8 +65,9 @@ def binary_search(sequence, target):
 			left = mid + 1 
 	return None 
 
-sequence = list(range(1, 1000))
+# sequence = list(range(1, 1000))
 # print(binary_search(sequence, 521))
+
 
 
 # 三分所有（二分搜索拓展）

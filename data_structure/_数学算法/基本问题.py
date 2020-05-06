@@ -123,11 +123,10 @@ def newton(s):
 		x_n = x_n1 
 
 def f1(x):
-	return 3*(x**2) - 2 
+	return 3*(x**2) - 2
 
 
-# print(newton(3))
-
+# print(newton(1))
 
 
 """
@@ -144,8 +143,8 @@ def fib(num):
 	else:
 		print(False)
 
-l = [fib(i) for i in range(1,5)]
-print(l)
+# l = [fib(i) for i in range(1,5)]
+# print(l)
 
 
 # 循环
@@ -159,4 +158,7 @@ def fib(num):
 		l.append(l[-2]+l[-1])
 	return l 
 
-print(fib(3))
+# print(fib(3))
+
+
+
